@@ -41,9 +41,8 @@ sr1(ssdpRequest)
 ## (Spoofed) NTP request
 ```python
 from scapy.all import *
-spoofedIPsrc="130.89.14.206"
-aNTPserver="112.64.246.89"
-
-ntpRequest = IP(src=spoofedIPsrc,dst=aNTPserver) / UDP() /NTP(version=4)
+spoofedIPsrc="130.89.14.205"
+aNTPserver="59.188.133.225"
+ntpRequest = IP(src=spoofedIPsrc,dst=aNTPserver) / UDP(dport=123,sport=50000)/("\x1b\x00\x00\x00"+"\x00"*11*4)
 sr1(ntpRequest)
 ```
